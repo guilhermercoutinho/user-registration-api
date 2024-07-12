@@ -30,12 +30,26 @@ app.put("/users/:id", (req, res) => {
     const index = users.findIndex( user => user.id === id)
 
     if (index < 0) {
-        res.status(404).json({ error: "User not found!"})
+        return res.status(404).json({ error: "User not found!"})
     }
 
     const updatedUser = { id, name, age}
 
-    users.splice(index,1, updatedUser)
+    users[index] = updatedUser
+
+    res.status(200).json(updatedUser)
+})
+
+app.delete("/users/:id", (req,res) => {
+    const { id } = req.params;
+
+    const index = users.findIndex(user => user.id === id)
+
+    if (index < 0) {
+        return res.status(404).json({ error: "User not found!"})
+    }
+
+    users.splice(index, 1)
 
     res.status(200).json()
 })
