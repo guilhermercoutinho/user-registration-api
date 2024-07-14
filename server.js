@@ -42,8 +42,6 @@ app.put("/users/:id", checkId, (req, res) => {
     const { name, age } = req.body;
     const index = req.userIndex;
 
-    console.log(id, index);
-
     const updatedUser = { id, name, age}
 
     users[index] = updatedUser
@@ -51,14 +49,9 @@ app.put("/users/:id", checkId, (req, res) => {
     res.status(200).json(updatedUser)
 })
 
-app.delete("/users/:id", (req,res) => {
-    const { id } = req.params;
-
-    const index = users.findIndex(user => user.id === id)
-
-    if (index < 0) {
-        return res.status(404).json({ error: "User not found!"})
-    }
+app.delete("/users/:id", checkId, (req,res) => {
+    const id = req.userId;
+    const index = req.userIndex
 
     users.splice(index, 1)
 
