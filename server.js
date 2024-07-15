@@ -8,7 +8,7 @@ app.use(express.json());
 
 const users = [];
 
-function checkId(req, res, next) {
+function checkUserId(req, res, next) {
     const { id } = req.params;
     const index = users.findIndex( user => user.id === id)
 
@@ -37,10 +37,10 @@ app.post("/users", (req, res) => {
     res.status(201).json({ message: "User successfully registered!"})
 })
 
-app.put("/users/:id", checkId, (req, res) => {
+app.put("/users/:id", checkUserId, (req, res) => {
     const id = req.userId;
-    const { name, age } = req.body;
     const index = req.userIndex;
+    const { name, age } = req.body;
 
     const updatedUser = { id, name, age}
 
@@ -49,8 +49,7 @@ app.put("/users/:id", checkId, (req, res) => {
     res.status(200).json(updatedUser)
 })
 
-app.delete("/users/:id", checkId, (req,res) => {
-    const id = req.userId;
+app.delete("/users/:id", checkUserId, (req,res) => {
     const index = req.userIndex
 
     users.splice(index, 1)
